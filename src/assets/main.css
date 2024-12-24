@@ -13,3 +13,7 @@ a,
   transition: 0.4s;
   padding: 3px;
 }
+
+body {
+  font-family: "M PLUS 2", serif;
+}

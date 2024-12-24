@@ -148,7 +148,7 @@ function toggleSidebar() {
 .main-content {
   flex: 1;
   padding: 20px;
-  background-color: #ecf0f1;
+  background-color: #d9e8ed;
   transition: margin-left 0.3s ease;
 }
 

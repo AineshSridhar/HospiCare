@@ -134,11 +134,11 @@ a:hover {
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
   /* padding: 12px 16px; */
-  border-radius: 8px;
+  border-radius: 8px 0px 8px 8px;
   top: 100%;
   left: 0%;
-  transform: translateX(-50%); /* Center the dropdown */
-  margin-top: 5px;
+  transform: translateX(-41%); /* Center the dropdown */
+  margin-top: -2px;
   opacity: 0;
   transition: opacity 0.3s ease;
   overflow: hidden;
@@ -174,7 +174,7 @@ a:hover {
   border-top: 5px solid white; /* Triangle color matching dropdown */
   margin-left: 10px;
   display: inline-block;
-  margin-top: 0px;
+  margin-bottom: 3px;
 }
 
 /* Responsive positioning fixes */
