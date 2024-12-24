@@ -51,6 +51,7 @@ function toggleDropdown() {
 function logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('username');
+  localStorage.removeItem('role');
   username.value = null;
   showDropdown.value = false; // Hide dropdown on logout
   router.push('/login');

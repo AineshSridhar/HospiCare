@@ -58,9 +58,11 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');  // Assuming you stored the role in localStorage
 
-  // Protect admin routes
   if (to.name === 'admin-dashboard' && role !== 'admin') {
-    next('/');  // Redirect to home if not admin
+    next('/');  // Redirect to home if not admin'
+  } else if (to.name === 'login' && role){
+    console.log(role);
+    next('/dashboard');
   } else {
     next();  // Proceed with navigation
   }

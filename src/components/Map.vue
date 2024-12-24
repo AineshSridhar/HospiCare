@@ -25,7 +25,7 @@ export default {
   mounted() {
     // Create the script element
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDkGrXaoHMYFOEvFO6ibbVQqmU1xUd4UXk&loading=async&libraries=places&callback=initMap`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&loading=async&libraries=places&callback=initMap`;
     script.async = true; // Load asynchronously
     script.defer = true; // Defer execution of the script
 
