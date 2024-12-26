@@ -20,6 +20,10 @@
           <span class="icon">📝</span>
           <span v-if="isSidebarOpen">Book Appointments</span>
         </li>
+        <li @click="currentView = 'ScheduleTest'">
+          <span class="icon"></span>
+          <span v-if="isSidebarOpen">Schedule a Test</span>
+        </li>
       </ul>
     </div>
 
@@ -66,6 +70,11 @@ const currentViewComponent = computed(() => {
       return Dashboard;
   }
 });
+
+onMounted(() => {
+  const viewParam = route.query.view || 'Dashboard';
+  currentView.value = viewParam;
+})
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value;
