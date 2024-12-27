@@ -12,6 +12,7 @@ const healthRecordsRoute = require('./routes/healthRecords');
 const userDetailsRoute = require('./routes/userdetails');
 const viewAppointmentsRoute = require('./routes/viewappointments'); 
 const doctorDetailsRoute = require('./routes/doctordetails');
+const appointmentsRoute = require('./routes/appointments');
 
 const app = express();
 
@@ -25,8 +26,14 @@ app.use('/api/healthrecords', healthRecordsRoute);
 app.use('/api/userdetails', userDetailsRoute); 
 app.use('/api/viewappointments', viewAppointmentsRoute); 
 app.use('/api/doctors', doctorDetailsRoute);
+app.use('/api/appointments', appointmentsRoute);
 
-mongoose.connect('mongodb+srv://aineshsridhar:0ezLfNuZYnSUMyWa@cluster0.qpx9z.mongodb.net/hospicare?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!' });
+});
+
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
     

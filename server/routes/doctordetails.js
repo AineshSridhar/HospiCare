@@ -40,4 +40,72 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
+router.get('/:id', authenticateToken, async (req, res) => {
+  try {
+    const doctorId = req.params.id;
+    console.log(doctorId);
+    // Validate if ID is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(doctorId)) {
+      return res.status(400).json({ message: 'Invalid doctor ID' });
+    }
+
+    const doctor = await Doctor.findById(doctorId);
+    
+    if (!doctor) {
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+
+    res.json(doctor);
+  } catch (err) {
+    console.error('Error fetching doctor details:', err);
+    res.status(500).json({ message: 'Error fetching doctor details' });
+  }
+});
+
+// Add appointment booking route
+router.post('/:id/book', authenticateToken, async (req, res) => {
+  try {
+    const { date, timeSlot, reason, notes } = req.body;
+    const doctorId = req.params.id;
+    const userId = req.user.id; // From the authenticated token
+
+    // Validate doctor exists
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+    console.log(doctor);
+    
+    // Validate slot availability
+    const availableSlots = doctor.availability.get(date) || [];
+    if (!availableSlots.includes(timeSlot)) {
+      return res.status(400).json({ message: 'Time slot not available' });
+    }
+    console.log(availableSlots);
+
+    // Create appointment (you'll need an Appointment model)
+    const appointment = new Appointment({
+      doctor: doctorId,
+      patient: userId,
+      date,
+      timeSlot,
+      reason,
+      notes
+    });
+
+    await appointment.save();
+
+    // Remove booked slot from doctor's availability
+    const updatedSlots = availableSlots.filter(slot => slot !== timeSlot);
+    doctor.availability.set(date, updatedSlots);
+    await doctor.save();
+
+    res.status(201).json({ message: 'Appointment booked successfully', appointment });
+  } catch (err) {
+    console.error('Error booking appointment:', err);
+    res.status(500).json({ message: 'Error booking appointment' });
+  }
+});
+
+
 module.exports = router;

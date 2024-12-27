@@ -1,30 +1,55 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: true },
-  dob: { type: Date, required: true },  // Using Date type for correct format
-  phone_number: { type: String, required: true },
-  email: { type: String, required: true },
-  appointment_date: { type: Date, required: true },
-  appointment_type: { type: String, required: true },
-
   doctor: {
-    status: { type: String, required: true }
+    type: String,
+    ref: 'Doctor',
+    required: true
   },
-
-  location: {
-    notes: { type: String, required: true }
+  patient: {
+    type: String,
+    ref: 'User',
+    required: true
   },
-
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now }
+  date: {
+    type: String,
+    required: true
+  },
+  timeSlot: {
+    type: String,
+    required: true
+  },
+  reason: {
+    type: String,
+    required: true
+  },
+  notes: {
+    type: String
+  },
+  medications: [
+    {
+      name: { type: String, required: true },
+      dosage: { type: String },
+      frequency: { type: String }
+    }
+  ],
+  tests: [
+    {
+      testName: { type: String, required: true },
+      instructions: { type: String }
+    }
+  ],
+  diagnosis: {
+    type: String
+  },
+  status: {
+    type: String,
+    enum: ['scheduled', 'completed', 'cancelled'],
+    default: 'scheduled'
+  }
 }, {
-  collection: 'pastappointments'  // Specify the collection name here
+  collection: 'pastappointments',
+  timestamps: true
 });
 
-// Create the Appointment model
-const Appointment = mongoose.model('Appointment', appointmentSchema);
-
-module.exports = Appointment;
+module.exports = mongoose.model('Appointment', appointmentSchema);

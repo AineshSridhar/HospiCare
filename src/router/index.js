@@ -7,6 +7,7 @@ import RegisterView from '@/views/RegisterView.vue'
 import AdminDashboardView from '@/views/AdminDashboardView.vue'
 // import BookAppointmentsView from '@/views/BookAppointmentsView.vue'
 import DashboardView from '@/views/DashboardView.vue'
+import DoctorDetails from '@/views/DoctorDetails.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,12 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardView
+    },
+    {
+      path: '/doctor/:id',
+      name: 'DoctorDetails',
+      component: DoctorDetails,
+      meta: { requiresAuth: true } // If you're using authentication
     },
   ]
 });

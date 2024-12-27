@@ -24,19 +24,40 @@ function authenticateToken(req, res, next){
         return res.status(403).json({ message: 'Invalid token' });
     }
 }
-router.get('/', authenticateToken, async(req, res) => {
-    try{
-        console.log('Collection name: ', viewAppointments.collection.collectionName);
-        console.log('Username: ', req.user.username);
+// router.get('/', authenticateToken, async(req, res) => {
+//     try{
+//         console.log('Collection name: ', viewAppointments.collection.collectionName);
+//         console.log('Username: ', req.user.username);
 
-        const pastappointments = await viewAppointments.find({username: req.user.username});
+//         const pastappointments = await viewAppointments.find({patient: req.user.username});
         
-        console.log('Appointments: ', pastappointments);
-        res.json(pastappointments);
-    } catch (err){
-        console.error('Error fetching past appointments: ', err);
-        res.status(500).json({message: 'Error fetching past appointment records'});
+//         console.log('Appointments: ', pastappointments);
+//         res.json(pastappointments);
+//     } catch (err){
+//         console.error('Error fetching past appointments: ', err);
+//         res.status(500).json({message: 'Error fetching past appointment records'});
+//     }
+// });
+// Example: Node.js + MongoDB
+router.get('/', async (req, res) => {
+    try {
+      const appointments = await viewAppointments.aggregate([
+        {
+          $lookup: {
+            from: 'doctors', // Name of the doctors collection
+            localField: 'doctor', // Field in appointments collection
+            foreignField: 'username', // Field in doctors collection
+            as: 'doctorDetails', // Output array with doctor details
+          },
+        },
+      ]);
+      console.log(appointments);
+      res.json(appointments);
+    } catch (err) {
+      console.error("Error fetching appointments with doctor details: ", err);
+      res.status(500).send("Server error");
     }
-});
+  });
+  
 
 module.exports = router;

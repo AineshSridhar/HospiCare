@@ -42,7 +42,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import {useRoute} from 'vue-router';
 import Dashboard from '../components/Dashboard.vue';
 import HealthRecord from '../components/HealthRecord.vue';
 import ViewAppointments from '../components/ViewAppointments.vue';
@@ -57,6 +58,7 @@ defineProps({
 
 const currentView = ref('Dashboard');
 const isSidebarOpen = ref(true);
+const route = useRoute();
 
 const currentViewComponent = computed(() => {
   switch (currentView.value) {

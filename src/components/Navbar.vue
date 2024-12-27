@@ -11,8 +11,9 @@
         <ul>
           <li><RouterLink to="/">Home</RouterLink></li>
           <li><RouterLink to="/nearbyhospitals">Nearby Hospitals</RouterLink></li>
-          <li><a href="/healthrecords">Health Records</a></li>
-          <li><a href="/bookappointment">Book Appointment</a></li>
+          <li><RouterLink :to="{ name: 'dashboard', query: { view: 'HealthRecords' }}">Health Records</RouterLink></li>
+          <li><RouterLink :to="{ name: 'dashboard', query: { view: 'BookAppointments' }}">Appointments</RouterLink>
+          </li>
         </ul>
       </header>
     </div>
@@ -23,7 +24,7 @@
         <!-- Apply conditional class for showing the dropdown -->
         <div :class="['dropdown-content', { show: showDropdown }]">
           <RouterLink to="/dashboard">Dashboard</RouterLink>
-          <RouterLink to="/appointments">Appointments</RouterLink>
+          <RouterLink :to="{ name: 'dashboard', query: { view: 'ViewAppointments' }}">Appointments</RouterLink>
           <RouterLink to="/healthrecords">Health Records</RouterLink>
           <RouterLink to="/login" @click="logout">Logout</RouterLink>
         </div>
